@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ticket Booking</title>
+	<link rel="stylesheet" type="text/css" href="css/bk-main.css">
+
+	<!-- These are the files for javascript and bootsrap -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+
+</head>
+<body>
+
+	<!-- Header of the page -->
+	<div class="header">
+		<h1>Welcome to ticket BOOKING</h1>
+	</div>
+
+
+	<!-- Body container of the Page  which contain table as well-->
+	<br><br><br>
+	<div class="container">
+    <table id="table" data-search="true">
+      <thead>
+        <tr>
+          <!-- <th data-field="" data-sortable="true">#</th> -->
+          <th data-field="artist" >Artist</th>
+          <th data-field="venue" >Venue</th>
+          <th data-field="eventdate" >Venue Date</th>
+          <th data-field="ticketprice" >Ticket Price</th>
+          <!-- <th>Show Name</th> -->
+        </tr>
+      </thead>      
+    </table>
+  </div>
+
+<!--*****************  Modal for input and manipulation ***************-->
+    <div id="myModal" class="modal fade " role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Ticket Details</h4>
+          </div>
+          <div class="modal-body vertical-scrollable">
+          	<p><b>You will have to pay Extra 12 Euro for buying <u><i>4 or more than 4</i></u> tickets.</b></p>
+          	<p>You can Buy <b><u>Minimun 1</u></b> and <b><u>Maximum 6</u></b> tickets.</p>
+          	<p>Please fill all the fields to buy tickets.</p> <br>
+          	
+          	<!-- Info related to event will fetch automatically -->
+          	<h6>Event Details</h6>
+          	<div style="border:1px solid gray; border-radius: 10px;padding: 10px;">
+
+          		<label>Order Id: </label><label class="ID" id="id"></label><br>
+          		<label>Artist : </label><label class="A"></label><br>
+	          	<label>Venue : </label><label class="V"></label><br>
+    	      	<label>Event Date : </label><label class="E"></label><br>
+        	  	<label>Ticket Price : </label><label class="T" id="tp"></label><br>
+
+          	</div>
+          	<!-- This is for personel info that user must input -->
+          	<br>
+          	<h6>Personel Info</h6>
+          	<div style="border:1px solid gray; border-radius: 10px;padding: 20px;">
+          		<form method="post">
+          			<input type="text" name="name" placeholder="Enter Your Name... " required class="inputs" id="name">
+	          		<input type="email" name="email" placeholder="Enter Your Email... " required class="inputs" id="email">
+	          		<input type="number" name="card" placeholder="Enter Your Card No... " required class="inputs" id="card" min="135">
+	          		<input type="number" id="tic" name="tickets" placeholder="Enter No of Ticket... " required class="inputs" max="6" min="1"><br><br>
+
+	          		<input type="submit" name="Buy" value="Buy" class="btnSubmit" id="SUB">	          		
+          		</form>
+          	</div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-submit" data-dismiss="modal" style="background-color: red;">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- *************** End of Model for manipulation ****************/     -->
+   
+<!-- ******************* JavaScript started *****************************/ -->
+    	<script>
+			var $table = $('#table');
+
+			/*************** This is the JSON data store in array **************/
+            var mydata = [{"_id":{"$oid":"6b856bffdb19b91a43c38445"},"artist":"Dua Lipa","venue":"London","eventdate":"2021-07-17","ticketprice":"30"},
+				{"_id":{"$oid":"6b856bffdb19b91a43c38446"},"artist":"Dua Lipa","venue":"London","eventdate":"2021-07-17","ticketprice":"45"},
+				{"_id":{"$oid":"6b856bffdb19b91a43c38447"},"artist":"Dua Lipa","venue":"London","eventdate":"2021-07-17","ticketprice":"70"},
+				{"_id":{"$oid":"6b856bffdb19b91a43c38448"},"artist":"Dua Lipa","venue":"London","eventdate":"2021-07-18","ticketprice":"30"},
+				{"_id":{"$oid":"6b856bffdb19b91a43c38449"},"artist":"Dua Lipa","venue":"London","eventdate":"2021-07-18","ticketprice":"45"},
+				{"_id":{"$oid":"6b856bffdb19b91a43c3844a"},"artist":"Dua Lipa","venue":"London","eventdate":"2021-07-18","ticketprice":"70"},
+				{"_id":{"$oid":"6b856bffdb19b91a43c3844a"},"artist":"Dua Lipa","venue":"London","eventdate":"2021-07-18","ticketprice":"70"},
+				{"_id":{"$oid":"6b856bffdb19b91a43c3844b"},"artist":"Dua Lipa","venue":"Manchester","eventdate":"2021-07-21","ticketprice":"25"},
+				{"_id":{"$oid":"6b856bffdb19b91a43c3844c"},"artist":"Dua Lipa","venue":"Manchester","eventdate":"2021-07-21","ticketprice":"35"},
+				{"_id":{"$oid":"6b856bffdb19b91a43c3844d"},"artist":"Dua Lipa","venue":"Manchester","eventdate":"2021-07-21","ticketprice":"45"},
+				{"_id":{"$oid":"6b856bffdb19b91a43c3844e"},"artist":"Dua Lipa","venue":"Manchester","eventdate":"2021-07-21","ticketprice":"70"},
+				{"_id":{"$oid":"6b856d69db19b91a43c3844f"},"artist":"Lewis Capaldi","venue":"London","eventdate":"2021-07-13","ticketprice":"35"},
+				{"_id":{"$oid":"6b856d69db19b91a43c38450"},"artist":"Lewis Capaldi","venue":"London","eventdate":"2021-07-13","ticketprice":"50"},
+				{"_id":{"$oid":"6b856d69db19b91a43c38451"},"artist":"Lewis Capaldi","venue":"London","eventdate":"2021-07-13","ticketprice":"60"},
+				{"_id":{"$oid":"6b856d69db19b91a43c38452"},"artist":"Lewis Capaldi","venue":"London","eventdate":"2021-07-15","ticketprice":"35"},
+				{"_id":{"$oid":"6b856d69db19b91a43c38453"},"artist":"Lewis Capaldi","venue":"London","eventdate":"2021-07-15","ticketprice":"50"},
+				{"_id":{"$oid":"6b856d69db19b91a43c38454"},"artist":"Lewis Capaldi","venue":"London","eventdate":"2021-07-15","ticketprice":"60"},
+				{"_id":{"$oid":"6b856d69db19b91a43c38455"},"artist":"Lewis Capaldi","venue":"Manchester","eventdate":"2021-07-18","ticketprice":"35"},
+				{"_id":{"$oid":"6b856d69db19b91a43c38456"},"artist":"Lewis Capaldi","venue":"Manchester","eventdate":"2021-07-18","ticketprice":"50"},
+				{"_id":{"$oid":"6b856d69db19b91a43c38457"},"artist":"Lewis Capaldi","venue":"Manchester","eventdate":"2021-07-18","ticketprice":"60"},
+				{"_id":{"$oid":"6b856d69db19b91a43c38458"},"artist":"Lewis Capaldi","venue":"Manchester","eventdate":"2021-07-20","ticketprice":"35"},
+				{"_id":{"$oid":"6b856d69db19b91a43c38459"},"artist":"Lewis Capaldi","venue":"Manchester","eventdate":"2021-07-20","ticketprice":"50"},
+				{"_id":{"$oid":"6b856d69db19b91a43c3845a"},"artist":"Lewis Capaldi","venue":"Manchester","eventdate":"2021-07-20","ticketprice":"80"},
+				{"_id":{"$oid":"6b856d69db19b91a43c3845b"},"artist":"Lewis Capaldi","venue":"Glasgow","eventdate":"2021-07-22","ticketprice":"35"},
+				{"_id":{"$oid":"6b856d69db19b91a43c3845c"},"artist":"Lewis Capaldi","venue":"Glasgow","eventdate":"2021-07-22","ticketprice":"50"},
+				{"_id":{"$oid":"6b856d69db19b91a43c3845d"},"artist":"Lewis Capaldi","venue":"Glasgow","eventdate":"2021-07-22","ticketprice":"60"},
+				{"_id":{"$oid":"6b856d69db19b91a43c3845e"},"artist":"Lewis Capaldi","venue":"Glasgow","eventdate":"2021-07-23","ticketprice":"35"},
+				{"_id":{"$oid":"6b856d69db19b91a43c3845f"},"artist":"Lewis Capaldi","venue":"Glasgow","eventdate":"2021-07-23","ticketprice":"50"},
+				{"_id":{"$oid":"6b856d69db19b91a43c38460"},"artist":"Lewis Capaldi","venue":"Glasgow","eventdate":"2021-07-23","ticketprice":"60"},
+				{"_id":{"$oid":"6b856e9edb19b91a43c38461"},"artist":"Bryan Adams","venue":"London","eventdate":"2021-07-10","ticketprice":"35"},
+				{"_id":{"$oid":"6b856e9edb19b91a43c38462"},"artist":"Bryan Adams","venue":"Manchester","eventdate":"2021-07-13","ticketprice":"80"},
+				{"_id":{"$oid":"6b856e9edb19b91a43c38463"},"artist":"Bryan Adams","venue":"Glasgow","eventdate":"2021-07-16","ticketprice":"60"},
+				{"_id":{"$oid":"6b856fd9db19b91a43c38464"},"artist":"Aerosmith","venue":"London","eventdate":"2021-07-13","ticketprice":"45"},
+				{"_id":{"$oid":"6b856fd9db19b91a43c38465"},"artist":"Aerosmith","venue":"London","eventdate":"2021-07-13","ticketprice":"60"},
+				{"_id":{"$oid":"6b856fd9db19b91a43c38466"},"artist":"Aerosmith","venue":"London","eventdate":"2021-07-13","ticketprice":"45"},
+				{"_id":{"$oid":"6b856fd9db19b91a43c38467"},"artist":"Aerosmith","venue":"London","eventdate":"2021-07-15","ticketprice":"60"},
+				{"_id":{"$oid":"6b856fd9db19b91a43c38468"},"artist":"Aerosmith","venue":"Glasgow","eventdate":"2021-07-18","ticketprice":"45"},
+				{"_id":{"$oid":"6b856fd9db19b91a43c38469"},"artist":"Aerosmith","venue":"Glasgow","eventdate":"2021-07-18","ticketprice":"60"},
+				{"_id":{"$oid":"6b856fd9db19b91a43c3846a"},"artist":"Aerosmith","venue":"Birmingham","eventdate":"2021-07-22","ticketprice":"25"},
+				{"_id":{"$oid":"6b856fd9db19b91a43c3846b"},"artist":"Aerosmith","venue":"Birmingham","eventdate":"2021-07-22","ticketprice":"40"},
+				{"_id":{"$oid":"6b856fd9db19b91a43c3846c"},"artist":"Aerosmith","venue":"Birmingham","eventdate":"2021-07-22","ticketprice":"60"},
+				{"_id":{"$oid":"6b856fd9db19b91a43c3846d"},"artist":"Aerosmith","venue":"Birmingham","eventdate":"2021-07-23","ticketprice":"25"},
+				{"_id":{"$oid":"6b856fd9db19b91a43c3846e"},"artist":"Aerosmith","venue":"Birmingham","eventdate":"2021-07-23","ticketprice":"40"},
+				{"_id":{"$oid":"6b856fd9db19b91a43c3846f"},"artist":"Aerosmith","venue":"Birmingham","eventdate":"2021-07-23","ticketprice":"60"},
+				{"_id":{"$oid":"6b85727ddb19b91a43c38470"},"artist":"Emily Atack","venue":"London","eventdate":"2021-06-08","ticketprice":"30"},
+				{"_id":{"$oid":"6b85727ddb19b91a43c38471"},"artist":"Emily Atack","venue":"London","eventdate":"2021-06-08","ticketprice":"40"},
+				{"_id":{"$oid":"6b85727ddb19b91a43c38472"},"artist":"Emily Atack","venue":"London","eventdate":"2021-06-09","ticketprice":"30"},
+				{"_id":{"$oid":"6b85727ddb19b91a43c38473"},"artist":"Emily Atack","venue":"London","eventdate":"2021-06-09","ticketprice":"40"},
+				{"_id":{"$oid":"6b85727ddb19b91a43c38474"},"artist":"Emily Atack","venue":"Manchester","eventdate":"2021-06-11","ticketprice":"30"},
+				{"_id":{"$oid":"6b85727ddb19b91a43c38475"},"artist":"Emily Atack","venue":"Manchester","eventdate":"2021-06-11","ticketprice":"40"},
+				{"_id":{"$oid":"6b85727ddb19b91a43c38476"},"artist":"Emily Atack","venue":"Birmingham","eventdate":"2021-06-12","ticketprice":"30"},
+				{"_id":{"$oid":"6b85727ddb19b91a43c38477"},"artist":"Emily Atack","venue":"Birmingham","eventdate":"2021-06-12","ticketprice":"40"},
+				{"_id":{"$oid":"6b85727ddb19b91a43c38478"},"artist":"Emily Atack","venue":"London","eventdate":"2021-06-17","ticketprice":"30"},
+				{"_id":{"$oid":"6b85727ddb19b91a43c38479"},"artist":"Emily Atack","venue":"London","eventdate":"2021-06-17","ticketprice":"45"},
+				{"_id":{"$oid":"6b85727ddb19b91a43c3847a"},"artist":"Emily Atack","venue":"London","eventdate":"2021-06-17","ticketprice":"60"},
+				{"_id":{"$oid":"6b85727ddb19b91a43c3847b"},"artist":"Emily Atack","venue":"London","eventdate":"2021-06-19","ticketprice":"30"},
+				{"_id":{"$oid":"6b85727ddb19b91a43c3847c"},"artist":"Emily Atack","venue":"London","eventdate":"2021-06-19","ticketprice":"45"},
+				{"_id":{"$oid":"6b85727ddb19b91a43c3847d"},"artist":"Emily Atack","venue":"London","eventdate":"2021-06-19","ticketprice":"60"}
+            ];
+
+            /*This is the function for making bootstrap table and put all the JSON data into the table*/
+            $(function() {
+	            $('#table').bootstrapTable({
+	                data: mydata,
+	                columns: [ {},{},{},{},  
+	                {
+	                  field: 'operate',
+	                  title: 'Buy',
+	                  align: 'center',
+	                  valign: 'middle',
+	                  clickToSelect: false,
+	                  formatter : function(value,row,index) {
+	                    //return '<input name="elementname"  value="'+value+'"/>';
+	                    return '<button class=\'btn btn-primary \' artistName="'+row.artist+'" venue="'+row.venue+'" eventdate="'+row.eventdate+'" ticketprice="'+row.ticketprice+'" >Buy</button> ';
+	                  }
+	                }
+	              ]               
+	            });
+
+	            //Global variables for accessing in comfirmation box below.
+	            var tempArtistName;
+	            var tempVenue;
+	            var tempEdate;
+	            var id ; // For Order ID
+
+	            /** Function for performing Buy Button in each row **/ 
+	            $(".btn").click(function(){
+	            	var artistName = $(this).attr('artistName');
+	                var venue = $(this).attr('venue');                
+	                var eventdate = $(this).attr('eventdate');
+					var ticketprice = $(this).attr('ticketprice');                          
+	                
+	                //These temperory values will be used in comfirmation box below.
+	                tempArtistName = artistName ;
+	                tempVenue = venue ;
+	                tempEdate = eventdate;
+
+	                //Logic for displaying correct id with each row.	                
+	                for(var i=0 ; i<mydata.length ; i++){
+	                	if (artistName==mydata[i].artist && venue==mydata[i].venue && eventdate==mydata[i].eventdate && ticketprice==mydata[i].ticketprice) {
+	                		id =  mydata[i]._id.$oid;   
+	                	}
+	                }
+	               	
+	               	// fetching automatically all each rows' data.
+	                $(".modal .modal-body .ID").html(id);         
+	                $(".modal .modal-body .A").html(artistName);
+	                $(".modal .modal-body .V").html(venue);
+	                $(".modal .modal-body .E").html(eventdate);
+	                $(".modal .modal-body .T").html(ticketprice);
+	                $("#myModal").modal("show");
+
+	            });
+
+	            /************ For confirmation Box ******************/	            
+	             $("#SUB").click(function(){	
+	             	var artistName = $(this).attr('artistName');
+	                var venue = $(this).attr('venue');                
+	                var eventdate = $(this).attr('eventdate');					
+					var ticketprice = document.getElementById("tp").textContent ;
+					var tickets = document.getElementById("tic").value ; 					
+
+					// If tickets are more than 4 then 12 Euro will be added to price:
+					var tp ;
+					if(tickets>=4){
+						tp = parseInt(ticketprice);
+						tp=(tp*tickets)+12;						
+					}else{
+						tp=parseInt(ticketprice);
+						tp = (tp*tickets);
+					}
+					
+					//If the fields are not empty then it will make confimation alert.
+					var name = document.getElementById("name").value.length;
+					var email = document.getElementById("email").value.length;
+					var card = document.getElementById("card").toString().length;
+
+					// designing Confirmation alert.
+					var newLine = "\r\n"
+					 var msg = "************** Reciept ********************************"
+					 msg += newLine; msg += newLine;
+					 msg+= "Order ID : " + id ;
+					 msg+=newLine;
+					 msg += "Artist Name : "+ tempArtistName ;
+					 msg += newLine;
+					 msg += "Venue : " + tempVenue;
+					 msg+= newLine;
+					 msg += "Event Date : " + tempEdate;
+					 msg+= newLine;
+					 msg += "Ticket Price : " +"$"+tp;
+					 msg+= newLine;
+					 msg += "Issued to : " + document.getElementById("name").value;
+					 msg+= newLine;
+					 msg += "Nos. of Tickets : " + tickets;
+					 msg+= newLine;
+					 msg+= "*******************************************************";
+
+					 // if feilds are not empty then it will make confirmation box
+					 var numbers = /[0-9]/;
+					 var cardNo = document.getElementById("card").value;
+					if(name !=0 && email !=0 && card !=0 && tickets.length != 0 && tickets<=6 && cardNo.match(numbers)){
+						var c = confirm(msg);
+					}							
+	               
+	                //If confimation is confirmed (OK pressed) then model will hide.
+	                if(c){
+	                	$("#myModal").modal("hide");
+	                	$("#myModal").fadeOut("fast","linear");
+	                	alert("Thanks For Purchasing !");
+	                }else{
+	                	$("#myModal").modal("show");
+	                }
+	            });
+            });
+   		</script>
+<!-- /************************** End of JavaScript Area*********************/ -->
+
+
+    <br><br><br>
+</body>
+</html>

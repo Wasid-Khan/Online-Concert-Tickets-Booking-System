@@ -1,0 +1,98 @@
+
+body{
+	font-family: sans-serif;
+	align-content: center;
+	background-color: lightgray;
+	background-image: url("imgs/1.jpeg");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.model{
+	margin:50px 300px;
+	background-color: white;
+	border-radius: 5px;
+	overflow: hidden;
+}
+.lcol{
+	width: 30%;
+	height: 500px;
+	padding: 15px;
+	float: left;
+	background-image: url("imgs/lg2-01.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+.rcol{
+	float: right;
+	width: 55%;
+	padding: 30px;
+	padding-left: 30px;
+}
+input{
+	width: 80%;
+	height: 50px;
+	font-size: 18px;
+	border:none;
+	border-bottom: 1px solid gray;
+}
+
+/* Style the submit button */
+input[type=submit] {
+  background-color: #0099ff;
+  border-radius: 5px;
+  color: white;
+}
+/* The message box is shown when the user clicks on the password field */
+#Pmessage {
+  display:none;	
+  background: #f1f1f1;
+  color: #000;
+  position: relative;
+  padding: 10px;
+  text-align: center;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+#Pmessage p {
+  padding: 1px 35px;
+  font-size: 15px;
+}
+
+/* The message box is shown when the user clicks on the Username field */
+#Umessage {
+  display:none;	
+  background: #f1f1f1;
+  color: #000;
+  position: relative;
+  padding: 10px;
+  text-align: center;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+#Umessage p {
+  padding: 1px 35px;
+  font-size: 15px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -35px;
+  content: "\2713";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -35px;
+  content: "\2716";
+}
+

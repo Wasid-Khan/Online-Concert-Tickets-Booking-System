@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>login</title>
+	<link rel="stylesheet" type="text/css" href="css/lg-main.css">
+</head>
+<body>
+
+	<div class="model">
+		<!-- /**************************** Left column ***********************/ -->
+		<div class="lcol"> 
+			<!-- Message BOX For Password -->
+			<div id="Pmessage">  
+			  <h4>Password must contain the following:</h4>
+			  <p id="letter" class="invalid"><b>lowercase</b> letter</p>
+			  <p id="capital" class="invalid"><b>Uppercase</b> letter</p>
+			  <p id="number" class="invalid">A <b>number</b></p>
+			  <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+			  <p id="keywords" class="valid">Must <b>not</b> have keywords[SELECT,<br>INSERT,DELETE<br>UPDATE,MERGE<br>DROP,ALTER<br>CREATE,TRUNCATE]</b></p>
+			</div>
+
+			<!-- Message BOX for UserName -->
+			<div id="Umessage"> 
+			  <h4>User Name Vilidation:</h4>
+			  <p id="letterU" class="valid"><b>Only </b> letter</p>
+			  <p id="signs" class="valid"><b>Only </b> @ and dot(.) signs</p>			  
+			  <p id="lengthU" class="valid">Maximun <b>25 characters</b></p>
+			  <p id="keywordsU" class="valid">Must not have keywords[SELECT,<br>INSERT,DELETE<br>UPDATE,MERGE<br>DROP,ALTER<br>CREATE,TRUNCATE]</b></p>
+			</div>
+		</div>
+
+		<!-- /*************** Right Column *************************/ -->
+		<div class="rcol">
+			<h2>CONCERT BOOKINGS</h2>
+			<p>Welcome ! Login to the page to <br> buy Tickets of your favourite Singer's Concert.</p><br><br>
+			<!-- ***** Login form to fill ******* -->
+			<form action="booking.html" method="_POST">
+				<input type="text" placeholder="Username..." id="uname" name="uname" title="Only contains letters, @ or '.', maximum 25 characters" required>
+				<br><br><br>
+				<input type="password" placeholder="Password..."id="psw" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+				<br><br><br>
+				 <input type="submit" value="Submit">
+			</form>
+			
+
+			<!-- /****************************************************/ -->
+							<!-- Script for Vilidation -->
+			<!-- ********************************************************** -->
+			<!-- ************************ Validation fo password *************** -->
+			<script>
+				var myInput = document.getElementById("psw");				
+				var letter = document.getElementById("letter");				
+				var capital = document.getElementById("capital");
+				var number = document.getElementById("number");
+				var length = document.getElementById("length");				
+				var keywords = document.getElementById("keywords");
+				
+
+				//Checking for sql keywords
+				var select = "SELECT";
+				var update = "UPDATE";
+				var insert = "INSERT";
+				var del = "DELETE";
+				var merge= "MERGE";
+				var drop = "DROP";
+				var alt = "ALTER";
+				var create = "CREATE";
+				var trun = "TRUNCATE";
+
+				// When the user clicks on the password field, show the message box
+				myInput.onfocus = function() {
+				  document.getElementById("Pmessage").style.display = "block";
+				}				
+
+				// When the user clicks outside of the password field, hide the message box
+				myInput.onblur = function() {
+				  document.getElementById("Pmessage").style.display = "none";
+				}
+				
+				// When the user starts to type something inside the password field
+				myInput.onkeyup = function() {
+				  // Validate lowercase letters
+				  var lowerCaseLetters = /[a-z]/g;
+				  if(myInput.value.match(lowerCaseLetters)) {  
+				    letter.classList.remove("invalid");
+				    letter.classList.add("valid");
+				  } else {
+				    letter.classList.remove("valid");
+				    letter.classList.add("invalid");
+				  }
+				  
+				  // Validate capital letters
+				  var upperCaseLetters = /[A-Z]/g;
+				  if(myInput.value.match(upperCaseLetters)) {  
+				    capital.classList.remove("invalid");
+				    capital.classList.add("valid");
+				  } else {
+				    capital.classList.remove("valid");
+				    capital.classList.add("invalid");
+				  }
+
+				  // Validate numbers
+				  var numbers = /[0-9]/g;
+				  if(myInput.value.match(numbers)) {  
+				    number.classList.remove("invalid");
+				    number.classList.add("valid");
+				  } else {
+				    number.classList.remove("valid");
+				    number.classList.add("invalid");
+				  }
+				  
+				  // Validate length
+				  if(myInput.value.length >= 8) {
+				    length.classList.remove("invalid");
+				    length.classList.add("valid");
+				  } else {
+				    length.classList.remove("valid");
+				    length.classList.add("invalid");
+				  }
+
+				  //Vilidation for Keywords				  
+				  var temp = myInput.value.toUpperCase();
+				  if(temp.match(select) || temp.match(update) || temp.match(insert) || temp
+				  	.match(del) || temp.match(merge) || temp.match(drop) || temp.match(alt) || temp.match(create) || temp.match(trun)) {  
+				    keywords.classList.remove("valid");
+				    keywords.classList.add("invalid");
+				  } else {
+				    keywords.classList.remove("invalid");
+				    keywords.classList.add("valid");
+				  }
+
+				}
+/************************* vilidation for password END *****************/
+
+/**************** VALIDATION FOR USERNAME *******************/
+				var uname = document.getElementById("uname");
+				var letterU = document.getElementById("letterU");
+				var lengthU = document.getElementById("lengthU");
+				var keywordsU = document.getElementById("keywordsU");
+				var signs = document.getElementById("signs");
+
+				// When the user clicks on the Username field, show the message box
+				uname.onfocus = function() {
+				  document.getElementById("Umessage").style.display = "block";
+				}
+
+				// When the user clicks outside of the Username field, hide the message box
+				uname.onblur = function() {
+				  document.getElementById("Umessage").style.display = "none";
+				}
+
+				// When the user starts to type something inside the UserName field
+				uname.onkeyup = function() {
+				  				  
+				  // Validate signs
+				  var exp = /[\#\$\^\&\*\(\)\-\_\*\+\!\`\~\?\>\<\""\''\;\|\=\ ]/;
+				  if(uname.value.match(exp)) {  
+				    signs.classList.remove("valid");
+				    signs.classList.add("invalid");
+				  } else {
+				    signs.classList.remove("invalid");
+				    signs.classList.add("valid");
+				  }
+				 
+				 //Validition for Numbers
+				  var numbers = /[0-9]/g;
+				  if(uname.value.match(numbers)) {  
+				    letterU.classList.remove("valid");
+				    letterU.classList.add("invalid");
+				  } else {
+				    letterU.classList.remove("invalid");
+				    letterU.classList.add("valid");
+				  }
+
+				  // // Validate length
+				  if(uname.value.length > 25) {
+				    lengthU.classList.remove("valid");
+				    lengthU.classList.add("invalid");
+				  } else {
+				    lengthU.classList.remove("invalid");
+				    lengthU.classList.add("valid");
+				  }
+
+				  //Vilidation for Keywords				  
+				   var temp = uname.value.toUpperCase();
+				  if(temp.match(select) || temp.match(update) || temp.match(insert) || temp
+				  	.match(del) || temp.match(merge) || temp.match(drop) || temp.match(alt) || temp.match(create) || temp.match(trun)) {  
+				    keywordsU.classList.remove("valid");
+				    keywordsU.classList.add("invalid");
+				  } else {
+				    keywordsU.classList.remove("invalid");
+				    keywordsU.classList.add("valid");
+				  }
+				}
+			</script>
+		</div>
+	</div>
+</body>
+</html>
